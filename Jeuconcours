@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jeu Fidélité</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; }
+    #result {
+      margin-top: 30px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #007744;
+    }
+    button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bienvenue au Jeu Fidélité !</h1>
+  <p>Clique sur le bouton pour découvrir ton gain :</p>
+  <button id="playBtn" onclick="tirageAleatoire()">Jouer</button>
+  <div id="result"></div>
+
+  <script>
+    function tirageAleatoire() {
+      // Vérifie si l'utilisateur a déjà joué
+      if (localStorage.getItem("jeuFideliteDejaJoue")) {
+        document.getElementById("result").innerHTML = "Tu as déjà joué. Reviens nous voir bientôt !";
+        document.getElementById("playBtn").disabled = true;
+        return;
+      }
+
+      const alea = Math.random();
+      let resultat = "";
+
+      if (alea < 0.6) {
+        resultat = "Gratte une case simple";
+      } else if (alea < 0.9) {
+        resultat = "Gratte jusqu’à une case gagnante";
+      } else {
+        resultat = "Gratte une ligne entière";
+      }
+
+      document.getElementById("result").innerHTML = resultat;
+      document.getElementById("playBtn").disabled = true;
+
+      // Enregistre que l'utilisateur a joué
+      localStorage.setItem("jeuFideliteDejaJoue", true);
+    }
+
+    // Vérifie au chargement de la page
+    window.onload = function() {
+      if (localStorage.getItem("jeuFideliteDejaJoue")) {
+        document.getElementById("result").innerHTML = "Tu as déjà joué. Reviens nous voir bientôt !";
+        document.getElementById("playBtn").disabled = true;
+      }
+    }
+  </script>
+
+</body>
+</html>
